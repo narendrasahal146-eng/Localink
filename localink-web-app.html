@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Localink - Connecting Neighbourhoods</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --success: #10b981;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        header {
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .hero {
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+
+        .tab-btn {
+            padding: 0.6rem 1.2rem;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            border-radius: 2rem;
+            cursor: pointer;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Business Registration Form */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Directory Grid */
+        .directory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+            gap: 1.5rem;
+        }
+
+        .biz-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .biz-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .biz-content {
+            padding: 1.25rem;
+        }
+
+        .biz-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: #dbeafe;
+            color: var(--primary);
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 0.25rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .biz-title {
+            font-size: 1.25rem;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .biz-info {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .btn { width: auto; }
+            .form-row {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="nav-container">
+        <a href="#" class="logo">Localink</a>
+        <div id="user-role" style="font-size: 0.8rem; font-weight: bold; color: var(--secondary)">GUEST VIEW</div>
+    </div>
+</header>
+
+<div class="container">
+    <section class="hero">
+        <h1>Your Neighbourhood, Connected.</h1>
+        <p>Support local businesses, find exclusive offers, and grow your community together.</p>
+    </section>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('directory')">Business Directory</button>
+        <button class="tab-btn" onclick="switchTab('register')">Register Business</button>
+    </div>
+
+    <!-- Directory View -->
+    <div id="view-directory">
+        <div class="form-group" style="max-width: 600px; margin: 0 auto 2rem;">
+            <input type="text" id="search-input" placeholder="Search by name, category or service..." onkeyup="filterDirectory()">
+        </div>
+        
+        <div class="directory-grid" id="biz-list">
+            <!-- Initial Data -->
+            <div class="biz-card">
+                <div class="biz-content">
+                    <span class="biz-badge">Cafe</span>
+                    <h3 class="biz-title">The Daily Grind</h3>
+                    <div class="biz-info">📍 12 High Street</div>
+                    <div class="biz-info">📞 020 7946 0123</div>
+                    <p>Artisanal coffee and locally sourced pastries.</p>
+                    <div style="margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 0.5rem;">
+                        <small><strong>Offer:</strong> 10% off for Localink members</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="biz-card">
+                <div class="biz-content">
+                    <span class="biz-badge">Retail</span>
+                    <h3 class="biz-title">Green Leaf Florist</h3>
+                    <div class="biz-info">📍 45 Meadow Lane</div>
+                    <div class="biz-info">📞 020 7946 0555</div>
+                    <p>Fresh bouquets and sustainable indoor plants.</p>
+                    <div style="margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 0.5rem;">
+                        <small><strong>Service:</strong> Same-day delivery</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration View -->
+    <div id="view-register" class="hidden">
+        <div class="card" style="max-width: 800px; margin: 0 auto;">
+            <h2>Register Your Business</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Join the Localink network to connect with your neighborhood.</p>
+            
+            <form id="registration-form" onsubmit="handleRegistration(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="biz-name">Business Name *</label>
+                        <input type="text" id="biz-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="biz-cat">Category *</label>
+                        <select id="biz-cat" required>
+                            <option value="">Select a category</option>
+                            <option value="Cafe">Cafe & Restaurant</option>
+                            <option value="Retail">Retail & Shop</option>
+                            <option value="Service">Professional Services</option>
+                            <option value="Health">Health & Wellness</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="biz-loc">Location / Address *</label>
+                    <input type="text" id="biz-loc" required placeholder="e.g. 123 Local St.">
+                </div>
+
+                <div class="form-group">
+                    <label for="biz-contact">Contact Number *</label>
+                    <input type="tel" id="biz-contact" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="biz-desc">Services & Description</label>
+                    <textarea id="biz-desc" rows="3" placeholder="Tell customers what you do..."></textarea>
+                </div>
+
+                <button type="submit" class="btn">Submit for Approval</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function switchTab(view) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+
+        if (view === 'directory') {
+            document.getElementById('view-directory').classList.remove('hidden');
+            document.getElementById('view-register').classList.add('hidden');
+        } else {
+            document.getElementById('view-directory').classList.add('hidden');
+            document.getElementById('view-register').classList.remove('hidden');
+        }
+    }
+
+    function handleRegistration(event) {
+        event.preventDefault();
+        
+        const name = document.getElementById('biz-name').value;
+        const cat = document.getElementById('biz-cat').value;
+        const loc = document.getElementById('biz-loc').value;
+        const contact = document.getElementById('biz-contact').value;
+        const desc = document.getElementById('biz-desc').value;
+
+        // Create new element
+        const newBiz = document.createElement('div');
+        newBiz.className = 'biz-card';
+        newBiz.innerHTML = `
+            <div class="biz-content">
+                <span class="biz-badge">${cat}</span>
+                <h3 class="biz-title">${name}</h3>
+                <div class="biz-info">📍 ${loc}</div>
+                <div class="biz-info">📞 ${contact}</div>
+                <p>${desc || 'No description provided.'}</p>
+                <div style="margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 0.5rem; color: var(--primary); font-weight: bold; font-size: 0.8rem;">
+                    PENDING APPROVAL
+                </div>
+            </div>
+        `;
+
+        document.getElementById('biz-list').prepend(newBiz);
+        alert('Business submitted successfully! It will appear in the directory once approved by a Coordinator.');
+        
+        document.getElementById('registration-form').reset();
+        switchTab('directory');
+        document.querySelectorAll('.tab-btn')[0].classList.add('active');
+        document.querySelectorAll('.tab-btn')[1].classList.remove('active');
+    }
+
+    function filterDirectory() {
+        const query = document.getElementById('search-input').value.toLowerCase();
+        const cards = document.querySelectorAll('.biz-card');
+
+        cards.forEach(card => {
+            const text = card.innerText.toLowerCase();
+            if (text.includes(query)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
